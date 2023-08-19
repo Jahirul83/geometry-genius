@@ -11,6 +11,12 @@ function calculateTriangleArea() {
     const hight = parseFloat(hightValueText);
     console.log(hight);
 
+    if(isNaN(base)|| isNaN(hight))
+    {
+        alert('not a number');
+        return;
+    }
+
     // calculation
     const area = 0.5 * base * hight;
     console.log(area);
@@ -18,6 +24,7 @@ function calculateTriangleArea() {
     // show triangle area
     const areaSpan = document.getElementById('triagnle-area');
     areaSpan.innerText = area;
+    addToCalculationEntry('Triangle',area)
 }
 
 function calculateRectangleArea() {
@@ -38,6 +45,8 @@ function calculateRectangleArea() {
 
     const areaSpan = document.getElementById('rectangle-area');
     areaSpan.innerText = area;
+    addToCalculationEntry('Rectangle',area)
+    
 
 }
 
@@ -52,14 +61,19 @@ function calculateParallelogramArea() {
 
     const area = base * hight;
 
-    setElementInnerText('parallelogram-area', area)
+    setElementInnerText('parallelogram-area', area);
+    
+    // add to calculation entry
+    addToCalculationEntry('parallelogram',area)
 }
 
 function calculateellipseArea() {
     const majorRadius = getInputValue('ellipse-major-radius');
     const minorRadius = getInputValue('ellipse-minor-radius');
-    const area = 3.1416 * majorRadius * minorRadius;
-    setElementInnerText('ellipse-area',area);
+    const area = Math.PI * majorRadius * minorRadius;
+    const areaTwoDecimal = area.toFixed(2);
+    setElementInnerText('ellipse-area',areaTwoDecimal);
+    addToCalculationEntry('ellipse',areaTwoDecimal);
 }
 
 
@@ -76,5 +90,20 @@ function getInputValue(fieldId) {
 function setElementInnerText(elementId, area) {
     const element = document.getElementById(elementId);
     element.innerText = area;
+
+}
+
+// add to calculation entry
+function addToCalculationEntry(areaType,area){
+    console.log(areaType+' '+area);
+    const calculationEntry = document.getElementById('calculation-entry');
+
+    const count = calculationEntry.childElementCount;
+    const p = document.createElement('p');
+
+    p.classList.add('mt-4')
+    p.innerHTML = `${count+1}. ${areaType} ${area} cm <sup>2</sup> <button class="btn btn-sm btn-success">Convert</button>`;
+
+    calculationEntry.appendChild(p);
 
 }
